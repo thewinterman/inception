@@ -6,6 +6,7 @@ RUN apt-get update \
 	&& apt-get install --no-install-recommends -y \
 		ca-certificates \
 		curl \
+		mariadb-client \
 		php-cli \
 		php-fpm \
 		php-curl \
