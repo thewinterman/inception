@@ -53,16 +53,16 @@
 
 ## Required Documentation
 
-- [ ] Write `README.md` in English.
-- [ ] Make the README first line italicized and exactly state that the project was created as part of the 42 curriculum by the relevant login(s).
-- [ ] Include a `Description` section with the goal and a brief overview.
-- [ ] Explain the use of Docker, included sources, and the main design choices.
-- [ ] Compare virtual machines with Docker.
-- [ ] Compare secrets with environment variables.
-- [ ] Compare Docker networks with host networking.
-- [ ] Compare Docker volumes with bind mounts.
-- [ ] Include an `Instructions` section with relevant build, installation, and execution details.
-- [ ] Include a `Resources` section with conventional references and an explanation of AI use, including tasks and project parts.
+- [x] Write `README.md` in English.
+- [x] Make the README first line italicized and exactly state that the project was created as part of the 42 curriculum by the relevant login(s).
+- [x] Include a `Description` section with the goal and a brief overview.
+- [x] Explain the use of Docker, included sources, and the main design choices.
+- [x] Compare virtual machines with Docker.
+- [x] Compare secrets with environment variables.
+- [x] Compare Docker networks with host networking.
+- [x] Compare Docker volumes with bind mounts.
+- [x] Include an `Instructions` section with relevant build, installation, and execution details.
+- [x] Include a `Resources` section with conventional references and an explanation of AI use, including tasks and project parts.
 
 ## User Documentation
 
