@@ -6,7 +6,7 @@
 - [ ] Keep all configuration files under `srcs/`.
 - [ ] Provide a root `Makefile` that builds and starts the application through `docker-compose.yml`.
 - [x] Use Docker Compose.
-- [ ] Write one Dockerfile per service and build every service image yourself.
+- [x] Write one Dockerfile per service and build every service image yourself.
 - [ ] Name each Docker image after its corresponding service.
 - [x] Base images on the penultimate stable Alpine or Debian release.
 - [x] Do not pull ready-made service images or use Docker Hub services, except Alpine or Debian base images.
@@ -16,7 +16,7 @@
 
 - [ ] Run each service in its own dedicated container.
 - [x] Configure an NGINX-only container with TLSv1.2 or TLSv1.3 only.
-- [ ] Configure a WordPress + php-fpm-only container, without NGINX.
+- [x] Configure a WordPress + php-fpm-only container, without NGINX.
 - [x] Configure a MariaDB-only container, without NGINX.
 - [ ] Configure NGINX as the sole external entrypoint, exposed only on port `443`.
 - [x] Create a Docker network that connects the containers and declare the network in `docker-compose.yml`.
@@ -25,8 +25,8 @@
 ## Persistence
 
 - [x] Create one Docker named volume for the WordPress database.
-- [ ] Create a second Docker named volume for WordPress website files.
-- [ ] Do not use bind mounts for these persistent volumes.
+- [x] Create a second Docker named volume for WordPress website files.
+- [x] Do not use bind mounts for these persistent volumes.
 - [ ] Configure both named volumes to store host data below `/home/<login>/data`.
 
 ## Networking and Runtime Rules
@@ -38,9 +38,9 @@
 
 ## WordPress Data
 
-- [ ] Create at least two WordPress users in the database.
-- [ ] Make one of these users an administrator.
-- [ ] Ensure the administrator username does not contain `admin` or `administrator`, in any listed case variation.
+- [x] Create at least two WordPress users in the database.
+- [x] Make one of these users an administrator.
+- [x] Ensure the administrator username does not contain `admin` or `administrator`, in any listed case variation.
 
 ## Configuration and Secrets
 
