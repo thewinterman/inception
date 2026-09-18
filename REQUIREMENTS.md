@@ -5,26 +5,26 @@
 - [ ] Complete the project on a virtual machine.
 - [ ] Keep all configuration files under `srcs/`.
 - [ ] Provide a root `Makefile` that builds and starts the application through `docker-compose.yml`.
-- [ ] Use Docker Compose.
+- [x] Use Docker Compose.
 - [ ] Write one Dockerfile per service and build every service image yourself.
 - [ ] Name each Docker image after its corresponding service.
-- [ ] Base images on the penultimate stable Alpine or Debian release.
-- [ ] Do not pull ready-made service images or use Docker Hub services, except Alpine or Debian base images.
-- [ ] Do not use the `latest` image tag.
+- [x] Base images on the penultimate stable Alpine or Debian release.
+- [x] Do not pull ready-made service images or use Docker Hub services, except Alpine or Debian base images.
+- [x] Do not use the `latest` image tag.
 
 ## Mandatory Services
 
 - [ ] Run each service in its own dedicated container.
-- [ ] Configure an NGINX-only container with TLSv1.2 or TLSv1.3 only.
+- [x] Configure an NGINX-only container with TLSv1.2 or TLSv1.3 only.
 - [ ] Configure a WordPress + php-fpm-only container, without NGINX.
-- [ ] Configure a MariaDB-only container, without NGINX.
+- [x] Configure a MariaDB-only container, without NGINX.
 - [ ] Configure NGINX as the sole external entrypoint, exposed only on port `443`.
-- [ ] Create a Docker network that connects the containers and declare the network in `docker-compose.yml`.
-- [ ] Configure containers to restart after a crash.
+- [x] Create a Docker network that connects the containers and declare the network in `docker-compose.yml`.
+- [x] Configure containers to restart after a crash.
 
 ## Persistence
 
-- [ ] Create one Docker named volume for the WordPress database.
+- [x] Create one Docker named volume for the WordPress database.
 - [ ] Create a second Docker named volume for WordPress website files.
 - [ ] Do not use bind mounts for these persistent volumes.
 - [ ] Configure both named volumes to store host data below `/home/<login>/data`.
@@ -32,9 +32,9 @@
 ## Networking and Runtime Rules
 
 - [ ] Configure `<login>.42.fr` to resolve to the local IP address.
-- [ ] Do not use `network: host`, `--link`, or `links`.
-- [ ] Do not keep containers alive with `tail -f`, `bash`, `sleep infinity`, `while true`, or another artificial infinite-loop command.
-- [ ] Run the actual foreground service as PID 1 using Dockerfile and entrypoint best practices.
+- [x] Do not use `network: host`, `--link`, or `links`.
+- [x] Do not keep containers alive with `tail -f`, `bash`, `sleep infinity`, `while true`, or another artificial infinite-loop command.
+- [x] Run the actual foreground service as PID 1 using Dockerfile and entrypoint best practices.
 
 ## WordPress Data
 
@@ -44,12 +44,12 @@
 
 ## Configuration and Secrets
 
-- [ ] Use environment variables for configuration.
+- [x] Use environment variables for configuration.
 - [ ] Provide a `srcs/.env` file for environment variables such as the domain name.
-- [ ] Keep passwords out of Dockerfiles.
+- [x] Keep passwords out of Dockerfiles.
 - [ ] Store credentials, passwords, API keys, and other confidential values locally outside version control.
-- [ ] Add confidential files to `.gitignore`.
-- [ ] Prefer properly configured Docker secrets for confidential values.
+- [x] Add confidential files to `.gitignore`.
+- [x] Prefer properly configured Docker secrets for confidential values.
 
 ## Required Documentation
 
