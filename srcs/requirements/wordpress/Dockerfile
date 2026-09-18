@@ -1,6 +1,6 @@
 FROM debian:12-slim
 
-ARG WORDPRESS_VERSION=6.8.3
+ARG WORDPRESS_VERSION=7.1.1
 
 RUN apt-get update \
 	&& apt-get install --no-install-recommends -y \
