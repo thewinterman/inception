@@ -20,7 +20,7 @@ RUN apt-get update \
 	&& mv /tmp/wordpress/* /usr/src/wordpress/ \
 	&& curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp \
 	&& chmod 755 /usr/local/bin/wp \
-	&& sed -ri 's!^listen = .*!listen = 9000!' /etc/php/8.2/fpm/pool.d/www.conf \
+	&& sed -ri 's!^listen = .*!listen = 0.0.0.0:9000!' /etc/php/8.2/fpm/pool.d/www.conf \
 	&& rm -rf /tmp/* /var/lib/apt/lists/*
 
 COPY tools/entrypoint.sh /usr/local/bin/entrypoint.sh
