@@ -42,40 +42,49 @@ sql_identifier() {
     printf '%s' "$1" | sed 's/`/``/g'
 }
 
+chown -R mysql:mysql "$DATADIR" /run/mysqld
+
+new_database=false
 if [ ! -d "$DATADIR/mysql" ]; then
-    chown -R mysql:mysql "$DATADIR" /run/mysqld
     mariadb-install-db --user=mysql --datadir="$DATADIR" --auth-root-authentication-method=normal
+    new_database=true
+fi
 
-    mariadbd --user=mysql --skip-networking --socket="$SOCKET" &
-    bootstrap_pid=$!
-    trap 'kill "$bootstrap_pid" 2>/dev/null || true' EXIT
+mariadbd --user=mysql --skip-networking --socket="$SOCKET" &
+bootstrap_pid=$!
+trap 'kill "$bootstrap_pid" 2>/dev/null || true' EXIT
 
-    ready=false
-    for attempt in $(seq 1 30); do
-        if mariadb-admin --socket="$SOCKET" ping --silent; then
-            ready=true
-            break
-        fi
-        sleep 1
-    done
-    "$ready" || { echo "MariaDB did not start during initialization" >&2; exit 1; }
+ready=false
+for attempt in $(seq 1 30); do
+    if mariadb-admin --socket="$SOCKET" ping --silent; then
+        ready=true
+        break
+    fi
+    sleep 1
+done
+"$ready" || { echo "MariaDB did not start during initialization" >&2; exit 1; }
 
-    database=$(sql_identifier "$MARIADB_DATABASE")
-    user=$(sql_literal "$MARIADB_USER")
-    password=$(sql_literal "$MARIADB_PASSWORD")
-    root_password=$(sql_literal "$MARIADB_ROOT_PASSWORD")
+database=$(sql_identifier "$MARIADB_DATABASE")
+user=$(sql_literal "$MARIADB_USER")
+password=$(sql_literal "$MARIADB_PASSWORD")
+root_password=$(sql_literal "$MARIADB_ROOT_PASSWORD")
 
+if "$new_database"; then
     mariadb --socket="$SOCKET" -uroot <<-EOSQL
 		ALTER USER 'root'@'localhost' IDENTIFIED BY '${root_password}';
-		CREATE DATABASE IF NOT EXISTS \`${database}\`;
-		CREATE USER IF NOT EXISTS '${user}'@'%' IDENTIFIED BY '${password}';
-		GRANT ALL PRIVILEGES ON \`${database}\`.* TO '${user}'@'%';
-		FLUSH PRIVILEGES;
+EOSQL
+fi
+
+mariadb --socket="$SOCKET" -uroot --password="$MARIADB_ROOT_PASSWORD" <<-EOSQL
+	CREATE DATABASE IF NOT EXISTS \`${database}\`;
+	CREATE USER IF NOT EXISTS '${user}'@'%';
+	ALTER USER '${user}'@'%' IDENTIFIED BY '${password}';
+	GRANT ALL PRIVILEGES ON \`${database}\`.* TO '${user}'@'%';
+	FLUSH PRIVILEGES;
 EOSQL
 
-    mariadb-admin --socket="$SOCKET" -uroot --password="$MARIADB_ROOT_PASSWORD" shutdown
-    wait "$bootstrap_pid"
-    trap - EXIT
-fi
+mariadb-admin --socket="$SOCKET" -uroot --password="$MARIADB_ROOT_PASSWORD" shutdown
+wait "$bootstrap_pid"
+trap - EXIT
 
 exec "$@"
