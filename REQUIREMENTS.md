@@ -66,20 +66,20 @@
 
 ## User Documentation
 
-- [ ] Provide `USER_DOC.md` at the repository root.
-- [ ] Describe the services provided by the stack.
-- [ ] Explain how to start and stop the project.
-- [ ] Explain how to access the website and WordPress administration panel.
-- [ ] Explain how to locate and manage credentials.
-- [ ] Explain how to verify that services are running correctly.
+- [x] Provide `USER_DOC.md` at the repository root.
+- [x] Describe the services provided by the stack.
+- [x] Explain how to start and stop the project.
+- [x] Explain how to access the website and WordPress administration panel.
+- [x] Explain how to locate and manage credentials.
+- [x] Explain how to verify that services are running correctly.
 
 ## Developer Documentation
 
-- [ ] Provide `DEV_DOC.md` at the repository root.
-- [ ] Describe environment setup from scratch, including prerequisites, configuration files, and secrets.
-- [ ] Explain how to build and launch with the Makefile and Docker Compose.
-- [ ] Document relevant container and volume management commands.
-- [ ] Identify persistent-data locations and explain persistence.
+- [x] Provide `DEV_DOC.md` at the repository root.
+- [x] Describe environment setup from scratch, including prerequisites, configuration files, and secrets.
+- [x] Explain how to build and launch with the Makefile and Docker Compose.
+- [x] Document relevant container and volume management commands.
+- [x] Identify persistent-data locations and explain persistence.
 
 ## Bonus Options
 
