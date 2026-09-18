@@ -20,10 +20,10 @@ SECRETS := \
 all: up
 
 up: check storage
-	$(COMPOSE) up --build -d
+	$(COMPOSE) up --build --progress=plain -d
 
 build: check
-	$(COMPOSE) build
+	$(COMPOSE) build --progress=plain
 
 down:
 	$(COMPOSE) down
