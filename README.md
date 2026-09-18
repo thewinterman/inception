@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by <login>.*
+*This project has been created as part of the 42 curriculum by mattwint.*
 
 # Inception
 
@@ -71,8 +71,6 @@ secrets/wordpress_admin_password.txt
 secrets/wordpress_user_password.txt
 ```
 
-Do not commit `srcs/.env` or `secrets/`. Both are excluded by `.gitignore`.
-
 ### Run
 
 ```sh
@@ -101,4 +99,4 @@ make restart  # Recreate the running stack
 - [WP-CLI documentation](https://wp-cli.org/)
 - [MariaDB documentation](https://mariadb.com/kb/en/documentation/)
 
-AI was used to help draft the Dockerfiles, service entrypoints, Compose configuration, Makefile, and project documentation. The resulting configuration was reviewed and adapted for this project; it still requires validation on the target virtual machine.
+AI was used in this project.

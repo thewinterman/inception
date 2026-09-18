@@ -24,6 +24,8 @@ Restart all services:
 make restart
 ```
 
+_Note: `sudo` might be required depending on the docker/system configuration._
+
 ## Access
 
 Open `https://<login>.42.fr` in a browser. The certificate is self-signed, so the browser will display a certificate warning during local development; continue only after confirming the displayed domain is the configured local domain.
