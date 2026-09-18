@@ -13,6 +13,12 @@ services:
       MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb_root_password
     networks:
       - inception
+    healthcheck:
+      test: [ "CMD-SHELL", "mariadb-admin --socket=/run/mysqld/mysqld.sock ping --silent" ]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
     secrets:
       - mariadb_database
       - mariadb_user
@@ -25,7 +31,8 @@ services:
       context: ./requirements/wordpress
     restart: unless-stopped
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     volumes:
       - wordpress_data:/var/www/html
     environment:
@@ -43,6 +50,12 @@ services:
       WORDPRESS_USER_EMAIL: ${WORDPRESS_USER_EMAIL:?WORDPRESS_USER_EMAIL must be set}
     networks:
       - inception
+    healthcheck:
+      test: [ "CMD-SHELL", "php -r '$$socket = @fsockopen(\"127.0.0.1\", 9000); exit($$socket ? 0 : 1);'" ]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
     secrets:
       - mariadb_database
       - mariadb_user
@@ -56,7 +69,8 @@ services:
       context: ./requirements/nginx
     restart: unless-stopped
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     ports:
       - "443:443"
     volumes:

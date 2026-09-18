@@ -62,9 +62,19 @@ if [ ! -f /var/www/html/wp-config.php ]; then
 fi
 
 if ! wp core is-installed --path=/var/www/html --allow-root 2>/dev/null; then
-    until wp db check --allow-root --path=/var/www/html >/dev/null 2>&1; do
+    database_ready=false
+    for attempt in $(seq 1 30); do
+        if wp db check --allow-root --path=/var/www/html >/dev/null 2>&1; then
+            database_ready=true
+            break
+        fi
         sleep 1
     done
+    if ! "$database_ready"; then
+        echo "WordPress could not connect to MariaDB after 30 seconds" >&2
+        wp db check --allow-root --path=/var/www/html >&2 || true
+        exit 1
+    fi
 
     wp core install --allow-root --path=/var/www/html \
         --url="$WORDPRESS_URL" \
