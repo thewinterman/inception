@@ -4,21 +4,21 @@
 
 - [ ] Complete the project on a virtual machine.
 - [ ] Keep all configuration files under `srcs/`.
-- [ ] Provide a root `Makefile` that builds and starts the application through `docker-compose.yml`.
+- [x] Provide a root `Makefile` that builds and starts the application through `docker-compose.yml`.
 - [x] Use Docker Compose.
 - [x] Write one Dockerfile per service and build every service image yourself.
-- [ ] Name each Docker image after its corresponding service.
+- [x] Name each Docker image after its corresponding service.
 - [x] Base images on the penultimate stable Alpine or Debian release.
 - [x] Do not pull ready-made service images or use Docker Hub services, except Alpine or Debian base images.
 - [x] Do not use the `latest` image tag.
 
 ## Mandatory Services
 
-- [ ] Run each service in its own dedicated container.
+- [x] Run each service in its own dedicated container.
 - [x] Configure an NGINX-only container with TLSv1.2 or TLSv1.3 only.
 - [x] Configure a WordPress + php-fpm-only container, without NGINX.
 - [x] Configure a MariaDB-only container, without NGINX.
-- [ ] Configure NGINX as the sole external entrypoint, exposed only on port `443`.
+- [x] Configure NGINX as the sole external entrypoint, exposed only on port `443`.
 - [x] Create a Docker network that connects the containers and declare the network in `docker-compose.yml`.
 - [x] Configure containers to restart after a crash.
 
@@ -27,7 +27,7 @@
 - [x] Create one Docker named volume for the WordPress database.
 - [x] Create a second Docker named volume for WordPress website files.
 - [x] Do not use bind mounts for these persistent volumes.
-- [ ] Configure both named volumes to store host data below `/home/<login>/data`.
+- [x] Configure both named volumes to store host data below `/home/<login>/data`.
 
 ## Networking and Runtime Rules
 
@@ -45,7 +45,7 @@
 ## Configuration and Secrets
 
 - [x] Use environment variables for configuration.
-- [ ] Provide a `srcs/.env` file for environment variables such as the domain name.
+- [x] Provide a `srcs/.env` file for environment variables such as the domain name.
 - [x] Keep passwords out of Dockerfiles.
 - [ ] Store credentials, passwords, API keys, and other confidential values locally outside version control.
 - [x] Add confidential files to `.gitignore`.

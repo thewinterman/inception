@@ -50,11 +50,37 @@ services:
 		networks:
 			- inception
 
+	nginx:
+		build:
+			context: ./requirements/nginx
+		image: nginx:1.0
+		restart: unless-stopped
+		depends_on:
+			- wordpress
+		environment:
+			DOMAIN_NAME: ${DOMAIN_NAME:?DOMAIN_NAME must be set}
+		ports:
+			- "443:443"
+		volumes:
+			- wordpress_data:/var/www/html:ro
+		networks:
+			- inception
+
 volumes:
 	mariadb_data:
 		name: mariadb_data
+		driver: local
+		driver_opts:
+			type: none
+			o: bind
+			device: ${MARIADB_DATA_PATH:?MARIADB_DATA_PATH must be set}
 	wordpress_data:
 		name: wordpress_data
+		driver: local
+		driver_opts:
+			type: none
+			o: bind
+			device: ${WORDPRESS_DATA_PATH:?WORDPRESS_DATA_PATH must be set}
 
 networks:
 	inception:
