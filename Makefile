@@ -5,6 +5,7 @@ SHELL := /bin/sh
 COMPOSE_FILE := srcs/docker-compose.yml
 ENV_FILE := srcs/.env
 COMPOSE := docker compose --env-file $(ENV_FILE) -f $(COMPOSE_FILE)
+COMPOSE_BUILD := docker compose --progress=plain --env-file $(ENV_FILE) -f $(COMPOSE_FILE)
 SECRETS := \
 	secrets/mariadb_database.txt \
 	secrets/mariadb_user.txt \
@@ -23,7 +24,7 @@ up: check storage build
 	$(COMPOSE) up -d
 
 build: check
-	$(COMPOSE) build --progress=plain
+	$(COMPOSE_BUILD) build
 
 down:
 	$(COMPOSE) down
