@@ -6,6 +6,7 @@ RUN apt-get update \
 	&& apt-get install --no-install-recommends -y \
 		ca-certificates \
 		curl \
+		php-cli \
 		php-fpm \
 		php-curl \
 		php-gd \
@@ -20,7 +21,10 @@ RUN apt-get update \
 	&& mv /tmp/wordpress/* /usr/src/wordpress/ \
 	&& curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp \
 	&& chmod 755 /usr/local/bin/wp \
-	&& sed -ri 's!^listen = .*!listen = 0.0.0.0:9000!' /etc/php/8.2/fpm/pool.d/www.conf \
+	&& sed -ri \
+		-e 's!^listen = .*!listen = 0.0.0.0:9000!' \
+		-e '/^[[:space:]]*listen\.allowed_clients[[:space:]]*=/d' \
+		/etc/php/8.2/fpm/pool.d/www.conf \
 	&& rm -rf /tmp/* /var/lib/apt/lists/*
 
 COPY tools/entrypoint.sh /usr/local/bin/entrypoint.sh
