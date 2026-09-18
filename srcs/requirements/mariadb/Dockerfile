@@ -14,4 +14,4 @@ RUN chmod 755 /usr/local/bin/entrypoint.sh
 EXPOSE 3306
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["mariadbd"]
+CMD ["mariadbd", "--user=mysql"]
