@@ -47,6 +47,10 @@ case "$(printf '%s' "$WORDPRESS_ADMIN_USER" | tr '[:upper:]' '[:lower:]')" in
         ;;
 esac
 
+if [ ! -f /var/www/html/wp-includes/version.php ]; then
+    cp -a /usr/src/wordpress/. /var/www/html/
+fi
+
 chown -R www-data:www-data /var/www/html
 
 if ! wp core is-installed --path=/var/www/html --allow-root 2>/dev/null; then

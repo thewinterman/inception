@@ -14,10 +14,10 @@ RUN apt-get update \
 		php-xml \
 		php-zip \
 		unzip \
-	&& mkdir -p /var/www/html \
+	&& mkdir -p /usr/src/wordpress /var/www/html \
 	&& curl -fsSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.zip" -o /tmp/wordpress.zip \
 	&& unzip -q /tmp/wordpress.zip -d /tmp \
-	&& mv /tmp/wordpress/* /var/www/html/ \
+	&& mv /tmp/wordpress/* /usr/src/wordpress/ \
 	&& curl -fsSL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp \
 	&& chmod 755 /usr/local/bin/wp \
 	&& sed -ri 's!^listen = .*!listen = 9000!' /etc/php/8.2/fpm/pool.d/www.conf \
