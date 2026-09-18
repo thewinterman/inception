@@ -51,7 +51,7 @@ services:
     networks:
       - inception
     healthcheck:
-      test: [ "CMD-SHELL", "php -r '$$socket = @fsockopen(\"127.0.0.1\", 9000); exit($$socket ? 0 : 1);'" ]
+      test: [ "CMD-SHELL", "php -r '$$socket = @fsockopen(\"127.0.0.1\", 9000); exit($$socket ? 0 : 1);' && wp db check --allow-root --path=/var/www/html >/dev/null 2>&1" ]
       interval: 5s
       timeout: 3s
       retries: 12
@@ -79,6 +79,12 @@ services:
       DOMAIN_NAME: ${DOMAIN_NAME:?DOMAIN_NAME must be set}
     networks:
       - inception
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent --show-error --insecure https://127.0.0.1/ >/dev/null" ]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
 
 volumes:
   mariadb_data:
