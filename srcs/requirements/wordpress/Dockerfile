@@ -14,6 +14,7 @@ RUN apt-get update \
 		php-xml \
 		php-zip \
 		unzip \
+	&& mkdir -p /var/www/html \
 	&& curl -fsSL "https://wordpress.org/wordpress-${WORDPRESS_VERSION}.zip" -o /tmp/wordpress.zip \
 	&& unzip -q /tmp/wordpress.zip -d /tmp \
 	&& mv /tmp/wordpress/* /var/www/html/ \
