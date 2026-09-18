@@ -53,13 +53,15 @@ fi
 
 chown -R www-data:www-data /var/www/html
 
-if ! wp core is-installed --path=/var/www/html --allow-root 2>/dev/null; then
+if [ ! -f /var/www/html/wp-config.php ]; then
     wp config create --allow-root --path=/var/www/html \
         --dbname="$WORDPRESS_DB_NAME" \
         --dbuser="$WORDPRESS_DB_USER" \
         --dbpass="$WORDPRESS_DB_PASSWORD" \
         --dbhost="$WORDPRESS_DB_HOST"
+fi
 
+if ! wp core is-installed --path=/var/www/html --allow-root 2>/dev/null; then
     until wp db check --allow-root --path=/var/www/html >/dev/null 2>&1; do
         sleep 1
     done
@@ -71,7 +73,9 @@ if ! wp core is-installed --path=/var/www/html --allow-root 2>/dev/null; then
         --admin_password="$WORDPRESS_ADMIN_PASSWORD" \
         --admin_email="$WORDPRESS_ADMIN_EMAIL" \
         --skip-email
+fi
 
+if ! wp user get "$WORDPRESS_USER" --allow-root --path=/var/www/html >/dev/null 2>&1; then
     wp user create "$WORDPRESS_USER" "$WORDPRESS_USER_EMAIL" \
         --allow-root --path=/var/www/html \
         --user_pass="$WORDPRESS_USER_PASSWORD" \
