@@ -2,56 +2,7 @@
 
 ## Prerequisites
 
-Develop on a Debian virtual machine. Install Docker Engine, Buildx, and the Docker Compose plugin using the official Docker APT repository procedure encoded in the Makefile:
-
-```sh
-make install-deps
-make docker-group
-```
-
-Log out and back in after `make docker-group`. Confirm the installation with:
-
-```sh
-docker version
-docker compose version
-```
-
-### Manual Dependency Installation
-
-To install the same dependencies manually on Debian, first remove conflicting distribution packages when they are installed:
-
-```sh
-sudo apt remove docker.io docker-compose docker-doc docker-buildx podman-docker containerd runc
-```
-
-Add Docker's official repository and signing key:
-
-```sh
-sudo apt update
-sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null <<EOF
-Types: deb
-URIs: https://download.docker.com/linux/debian
-Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
-Components: stable
-Architectures: $(dpkg --print-architecture)
-Signed-By: /etc/apt/keyrings/docker.asc
-EOF
-```
-
-Install Docker Engine and its Compose plugin:
-
-```sh
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo usermod -aG docker "$USER"
-```
-
-Log out and back in after changing the group, then verify the installation:
+Develop on a Debian virtual machine. Install Docker Engine, Buildx, and the Docker Compose plugin using [Docker's official Debian installation instructions](https://docs.docker.com/engine/install/debian/). Confirm the installation with:
 
 ```sh
 docker version
@@ -101,12 +52,12 @@ The default target validates Docker, Compose, `.env`, and secret files; creates 
 docker compose --env-file srcs/.env -f srcs/docker-compose.yml up --build -d
 ```
 
-Use `make build` to build without starting. Use `make check` to validate the prerequisites and configuration without building images.
+Use `make build` to build without starting. Use `make check` to validate Docker, Compose, `.env`, and secret files without building images.
 
 ## Operations
 
 ```sh
-make ps       # Service status
+make ps       # Service and health status
 make logs     # Follow service logs
 make down     # Stop containers; retain volumes and host data
 make restart  # Stop and rebuild/start the stack
@@ -121,6 +72,8 @@ docker compose --env-file srcs/.env -f srcs/docker-compose.yml logs -f
 docker volume ls
 docker volume inspect mariadb_data wordpress_data
 ```
+
+Compose health checks verify MariaDB's local socket, WordPress's PHP-FPM listener and database connection, and an HTTPS request through NGINX. `restart: unless-stopped` restarts a service when its main process exits; an `unhealthy` health state is reported by Docker but does not itself trigger a restart.
 
 ## Persistent Data
 

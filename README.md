@@ -9,8 +9,8 @@ Inception is a small WordPress infrastructure deployed with Docker Compose. Its 
 The stack contains three dedicated Debian 12 containers:
 
 - **NGINX** is the only public entrypoint. It exposes port `443`, generates a development TLS certificate, allows TLS 1.2 and TLS 1.3 only, and forwards PHP requests to WordPress.
-- **WordPress** runs PHP-FPM on the internal network. Its entrypoint installs WordPress and creates an administrator and an additional author account on first startup.
-- **MariaDB** initializes the WordPress database and its database account on first startup.
+- **WordPress** runs PHP-FPM on the internal network. Its entrypoint initializes WordPress, creates an administrator and an additional author account, and then serves FastCGI on port `9000`.
+- **MariaDB** stores the WordPress database and reconciles its configured database account at startup.
 
 Each image is built from its Dockerfile under `srcs/requirements/`. Docker Compose connects the services through a private bridge network. MariaDB data and WordPress files use named volumes whose host locations are configured in `srcs/.env`.
 
@@ -18,7 +18,7 @@ Each image is built from its Dockerfile under `srcs/requirements/`. Docker Compo
 
 Docker packages the service, its dependencies, and runtime configuration into reproducible containers. Compose declares the relationships between those containers, their network, secrets, and persistent storage in one file. NGINX is intentionally separate from WordPress so it is the sole HTTPS-facing service; MariaDB is not exposed on the host.
 
-Sensitive values are supplied as Compose secrets and mounted at `/run/secrets/`. Non-sensitive settings, including the domain name and persistent-data paths, are supplied through `srcs/.env`.
+Sensitive values are supplied as Compose secrets and mounted at `/run/secrets/`. Non-sensitive settings, including the domain name and persistent-data paths, are supplied through `srcs/.env`. Health checks verify MariaDB responsiveness, WordPress database access plus PHP-FPM, and a local HTTPS request through NGINX.
 
 ### Comparisons
 
@@ -33,14 +33,12 @@ Sensitive values are supplied as Compose secrets and mounted at `/run/secrets/`.
 
 ### Prerequisites
 
-Use a Debian virtual machine with Docker Engine and the Docker Compose plugin. The Makefile can install them from Docker's official Debian repository:
+Use a Debian virtual machine with Docker Engine and the Docker Compose plugin. Install them using [Docker's official Debian instructions](https://docs.docker.com/engine/install/debian/), then verify the installation:
 
 ```sh
-make install-deps
-make docker-group
+docker version
+docker compose version
 ```
-
-After `make docker-group`, log out and back in so Docker can be used without `sudo`.
 
 Add the project domain to `/etc/hosts`, replacing the login as appropriate:
 
@@ -86,7 +84,7 @@ This validates the configuration and secrets, creates the configured persistent-
 Useful commands:
 
 ```sh
-make ps       # Show service status
+make ps       # Show service and health status
 make logs     # Follow all service logs
 make down     # Stop containers and preserve data
 make clean    # Remove containers, images, and named volumes

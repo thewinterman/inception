@@ -60,4 +60,4 @@ Follow the service logs:
 make logs
 ```
 
-All three services should be running. Then confirm that the homepage and `/wp-admin/` load through HTTPS.
+All three services should be running and healthy. The checks cover MariaDB, WordPress's database connection and PHP-FPM listener, and an HTTPS request through NGINX. Then confirm that the homepage and `/wp-admin/` load through HTTPS.

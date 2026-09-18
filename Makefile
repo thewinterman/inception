@@ -15,7 +15,7 @@ SECRETS := \
 
 -include $(ENV_FILE)
 
-.PHONY: all up build down restart logs ps clean re check check-env check-secrets storage install-deps install-docker docker-group
+.PHONY: all up build down restart logs ps clean re check check-env check-secrets storage
 
 all: up
 
@@ -40,29 +40,6 @@ clean:
 	$(COMPOSE) down --volumes --rmi local
 
 re: down up
-
-install-deps: install-docker
-
-install-docker:
-	@sudo apt-get update
-	@sudo apt-get install -y ca-certificates curl
-	@sudo install -m 0755 -d /etc/apt/keyrings
-	@sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-	@sudo chmod a+r /etc/apt/keyrings/docker.asc
-	@printf '%s\n' \
-		'Types: deb' \
-		'URIs: https://download.docker.com/linux/debian' \
-		"Suites: $$(. /etc/os-release && echo \"$$VERSION_CODENAME\")" \
-		'Components: stable' \
-		"Architectures: $$(dpkg --print-architecture)" \
-		'Signed-By: /etc/apt/keyrings/docker.asc' | sudo tee /etc/apt/sources.list.d/docker.sources > /dev/null
-	@sudo apt-get update
-	@sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-	@echo "Docker Engine and the Docker Compose plugin are installed. Run 'make docker-group' to use Docker without sudo."
-
-docker-group:
-	@sudo usermod -aG docker "$$USER"
-	@echo "Log out and back in before using Docker without sudo."
 
 check: check-env check-secrets
 	@command -v docker >/dev/null || { echo "Docker is not installed" >&2; exit 1; }
