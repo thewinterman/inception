@@ -33,7 +33,7 @@ Sensitive values are supplied as Compose secrets and mounted at `/run/secrets/`.
 
 ### Prerequisites
 
-Use a Debian virtual machine with Docker Engine and the Docker Compose plugin. Install them using [Docker's official Debian instructions](https://docs.docker.com/engine/install/debian/), then verify the installation:
+Use a Linux virtual machine with Docker Engine and the Docker Compose plugin. Install them using [Docker's official Debian instructions](https://docs.docker.com/engine/install/debian/), then verify the installation:
 
 ```sh
 docker version
